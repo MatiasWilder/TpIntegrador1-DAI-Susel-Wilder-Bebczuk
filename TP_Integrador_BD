@@ -1,0 +1,331 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.2
+-- Dumped by pg_dump version 16.0
+
+-- Started on 2025-07-07 08:49:35
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO pg_database_owner;
+
+--
+-- TOC entry 4830 (class 0 OID 0)
+-- Dependencies: 4
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 216 (class 1259 OID 16453)
+-- Name: event_enrollments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.event_enrollments (
+    id bigint NOT NULL,
+    id_event bigint NOT NULL,
+    id_user bigint NOT NULL,
+    description text NOT NULL,
+    registration_date_time timestamp without time zone NOT NULL,
+    attended bigint NOT NULL,
+    observations text NOT NULL,
+    rating bigint NOT NULL
+);
+
+
+ALTER TABLE public.event_enrollments OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 16467)
+-- Name: event_locations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.event_locations (
+    id bigint NOT NULL,
+    id_location bigint NOT NULL,
+    name text NOT NULL,
+    full_adres text NOT NULL,
+    max_capacity bigint NOT NULL,
+    latitude bigint NOT NULL,
+    longitude bigint NOT NULL,
+    id_creator_user bigint NOT NULL
+);
+
+
+ALTER TABLE public.event_locations OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 16446)
+-- Name: events; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.events (
+    id bigint NOT NULL,
+    name text NOT NULL,
+    description text NOT NULL,
+    id_event_location bigint NOT NULL,
+    start_date date NOT NULL,
+    duration_in_minutes bigint NOT NULL,
+    price bigint NOT NULL,
+    enabled_for_enrollment boolean NOT NULL,
+    max_assistance bigint NOT NULL,
+    id_creator_user bigint NOT NULL
+);
+
+
+ALTER TABLE public.events OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16476)
+-- Name: locations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.locations (
+    id bigint NOT NULL,
+    name text NOT NULL,
+    id_province bigint NOT NULL,
+    latitude bigint NOT NULL,
+    longitude bigint NOT NULL
+);
+
+
+ALTER TABLE public.locations OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 16485)
+-- Name: provinces; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.provinces (
+    id bigint NOT NULL,
+    name text NOT NULL,
+    full_name text NOT NULL,
+    latitude bigint NOT NULL,
+    longitude bigint NOT NULL,
+    display_order bigint NOT NULL
+);
+
+
+ALTER TABLE public.provinces OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 16460)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    first_name text NOT NULL,
+    last_name text NOT NULL,
+    username text NOT NULL,
+    password text NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 4820 (class 0 OID 16453)
+-- Dependencies: 216
+-- Data for Name: event_enrollments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 4822 (class 0 OID 16467)
+-- Dependencies: 218
+-- Data for Name: event_locations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 4819 (class 0 OID 16446)
+-- Dependencies: 215
+-- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 4823 (class 0 OID 16476)
+-- Dependencies: 219
+-- Data for Name: locations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 4824 (class 0 OID 16485)
+-- Dependencies: 220
+-- Data for Name: provinces; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 4821 (class 0 OID 16460)
+-- Dependencies: 217
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 4656 (class 2606 OID 16459)
+-- Name: event_enrollments event_enrollments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event_enrollments
+    ADD CONSTRAINT event_enrollments_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4660 (class 2606 OID 16475)
+-- Name: event_locations event_locations_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event_locations
+    ADD CONSTRAINT event_locations_id_key UNIQUE (id);
+
+
+--
+-- TOC entry 4662 (class 2606 OID 16473)
+-- Name: event_locations event_locations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event_locations
+    ADD CONSTRAINT event_locations_pkey PRIMARY KEY (id_location);
+
+
+--
+-- TOC entry 4654 (class 2606 OID 16452)
+-- Name: events events_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_id_key UNIQUE (id);
+
+
+--
+-- TOC entry 4664 (class 2606 OID 16484)
+-- Name: locations locations_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_id_key UNIQUE (id);
+
+
+--
+-- TOC entry 4666 (class 2606 OID 16482)
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (id_province);
+
+
+--
+-- TOC entry 4668 (class 2606 OID 16493)
+-- Name: provinces provinces_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.provinces
+    ADD CONSTRAINT provinces_id_key UNIQUE (id);
+
+
+--
+-- TOC entry 4670 (class 2606 OID 16491)
+-- Name: provinces provinces_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.provinces
+    ADD CONSTRAINT provinces_pkey PRIMARY KEY (name);
+
+
+--
+-- TOC entry 4658 (class 2606 OID 16466)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4673 (class 2606 OID 16504)
+-- Name: event_enrollments event_enrollments_id_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event_enrollments
+    ADD CONSTRAINT event_enrollments_id_user_fkey FOREIGN KEY (id_user) REFERENCES public.users(id) NOT VALID;
+
+
+--
+-- TOC entry 4674 (class 2606 OID 16509)
+-- Name: event_locations event_locations_id_location_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.event_locations
+    ADD CONSTRAINT event_locations_id_location_fkey FOREIGN KEY (id_location) REFERENCES public.locations(id) NOT VALID;
+
+
+--
+-- TOC entry 4671 (class 2606 OID 16494)
+-- Name: events events_id_creator_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_id_creator_user_fkey FOREIGN KEY (id_creator_user) REFERENCES public.users(id) NOT VALID;
+
+
+--
+-- TOC entry 4672 (class 2606 OID 16499)
+-- Name: events events_id_event_location_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_id_event_location_fkey FOREIGN KEY (id_event_location) REFERENCES public.event_locations(id) NOT VALID;
+
+
+--
+-- TOC entry 4675 (class 2606 OID 16514)
+-- Name: locations locations_id_province_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_id_province_fkey FOREIGN KEY (id_province) REFERENCES public.provinces(id) NOT VALID;
+
+
+-- Completed on 2025-07-07 08:49:35
+
+--
+-- PostgreSQL database dump complete
+--
+
