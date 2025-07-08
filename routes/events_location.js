@@ -37,8 +37,13 @@ router.get("/api/event-location/:id", async(req, res) => {
         return;
     }
 
-    let data = (await client.query("SELECT el.name, el.max_capacity, el.full_address, el.latitude, el.longitude FROM event_enrollments ee INNER JOIN events e ON ee.id_event=e.id INNER JOIN event_locations el ON e.id_event_location=el.id WHERE ee.id_user=$1 AND ee.id_event=$2", [idusuario, req.params.id])).rows[0];
-    res.status(200).send(data);
+    let data = (await client.query("SELECT el.name, el.max_capacity, el.full_address, el.latitude, el.longitude FROM event_enrollments ee INNER JOIN events e ON ee.id_event=e.id INNER JOIN event_locations el ON e.id_event_location=el.id WHERE ee.id_user=$1 AND ee.id_event=$2", [idusuario, req.params.id])).rows;
+    if(data.length == 0){
+        res.status(404).json({ error: "Evento no encontrado" });
+        return;
+    }
+    
+    res.status(200).send(data[0]);
 });
 
 export default router;
