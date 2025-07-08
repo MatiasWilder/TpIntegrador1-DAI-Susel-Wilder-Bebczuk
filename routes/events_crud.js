@@ -1,5 +1,9 @@
 import { Router } from "express";
+import jwt from "jsonwebtoken";
+import client from "../bd.js";
+
 const router = Router();
+const secretkey = "vendo brownies vendo brownies 12345678 ay AY $!$&&/$#";
 
 router.post("/api/event", async(req, res) => {
     const {

@@ -1,5 +1,6 @@
 import { Router } from "express";
 const router = Router();
+import client from "../bd.js";
 
 router.get("/api/event", async(req, res) => {
     let where = "WHERE ";
